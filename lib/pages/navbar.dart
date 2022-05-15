@@ -3,7 +3,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:test/pages/GoogleMaps.dart';
 import 'package:test/pages/etatcamion.dart';
 import 'package:test/pages/reclamation.dart';
-import 'package:test/pages/test.dart';
+import 'package:test/pages/setting.dart';
+import 'package:test/pages/scanPoubelle.dart';
 import 'package:test/pages/zoneDeDepot.dart';
 import 'package:test/pages/signup.dart';
 
@@ -22,7 +23,7 @@ class _MenuState extends State<Menu> {
      ZoneDepot(),
      Signaler(),
      MyHomePage(),
-     Signaler(),
+     Setting(),
 
   ];
   @override
@@ -33,7 +34,7 @@ class _MenuState extends State<Menu> {
 
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.grey,
-        
+
         currentIndex: currentIndex ,
         onTap: (index)=> setState(() =>currentIndex = index
 

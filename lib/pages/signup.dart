@@ -51,7 +51,7 @@ class _LoginState extends State<Login> {
     _passwordController.dispose();
     super.dispose();
   }
-
+ bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,7 +109,7 @@ class _LoginState extends State<Login> {
                       validator: (value) => value!.isEmpty
                           ? 'Please enter valid password '
                           : null,
-                      obscureText: true,
+                      obscureText: _isObscure,
                       enableSuggestions: false,
                       autocorrect: false,
                       decoration: InputDecoration(
@@ -119,6 +119,15 @@ class _LoginState extends State<Login> {
                                 color: Color(0xFF196f3d), width: 2.0)),
                         hintText: '●●●●●●●',
                         hintStyle: const TextStyle(fontSize: 10.0),
+                        suffixIcon: IconButton(
+                      icon: Icon(
+
+                          _isObscure ? Icons.visibility : Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          _isObscure = !_isObscure;
+                        });
+                }),
                       ),
                     ),
                   ),

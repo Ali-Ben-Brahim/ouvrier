@@ -1,7 +1,10 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:test/services/function.dart';
 
+import '../services/url_db.dart';
 
 class EtatCamion extends StatefulWidget {
   const EtatCamion({Key? key}) : super(key: key);
@@ -12,6 +15,7 @@ class EtatCamion extends StatefulWidget {
 
 class _EtatCamionState extends State<EtatCamion> {
   Check check = Check();
+  List<dynamic> data = [];
 
   List item = [
     {"image": "Image/2.png", "type": "Plastique", 'percent': 90.00},
@@ -19,12 +23,17 @@ class _EtatCamionState extends State<EtatCamion> {
     {"image": "Image/2.png", "type": "Autres", 'percent': 20.00},
     {"image": "Image/2.png", "type": "Cartoon", 'percent': 80.00}
   ];
+  @override
+  void initState() {
+    
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
           backgroundColor: const Color(0xFF196f3d),
           title: const Text("Etat camion",
               style: TextStyle(
@@ -72,7 +81,7 @@ class _EtatCamionState extends State<EtatCamion> {
                           radius: 40,
                           lineWidth: 12,
                           percent: (item[i]['percent']) / 100,
-                          progressColor: check.check(item[i]['percent']/100),
+                          progressColor: check.check(item[i]['percent'] / 100),
                           backgroundColor: Colors.grey,
                           circularStrokeCap: CircularStrokeCap.round,
                           center: Text(
@@ -91,9 +100,7 @@ class _EtatCamionState extends State<EtatCamion> {
                         fixedSize:
                             MaterialStateProperty.all(const Size(150, 40)),
                       ),
-                      onPressed: () {
-
-                      },
+                      onPressed: () {},
                       child: const Text('Vider la poubelle'),
                     ),
                   ],

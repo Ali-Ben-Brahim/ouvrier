@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ZoneDepot extends StatefulWidget {
   const ZoneDepot({Key? key}) : super(key: key);
@@ -50,17 +51,18 @@ class _ZoneDepotState extends State<ZoneDepot> {
           ),
           ListTile(
               title: const Text("Bab Lassal"),
-              subtitle: const Text(
-                'Distance 1.6 KM',
-                style: TextStyle(fontSize: 13),
-              ),
+
               trailing: IconButton(
                   icon: const Icon(
                     Icons.directions,
                     color: Colors.blue,
                     size: 38,
                   ),
-                  onPressed: (){} ),
+                  onPressed: ()async {
+                              if (await canLaunch("https://goo.gl/maps/FyU3ByvFTjPrVT2o7")) {
+                                await launch("https://goo.gl/maps/FyU3ByvFTjPrVT2o7");
+                              }
+                            }, ),
               leading: const Icon(
                 Icons.location_on,
                 color: Colors.red,

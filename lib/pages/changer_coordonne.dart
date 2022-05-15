@@ -46,7 +46,7 @@ class _ChangercoordCnneState extends State<ChangerCoordonne> {
   nom(){
     return Consumer<Auth>(
       builder: (context, auth, child) {
-      _nomController.text = auth.user.name! ;
+      _nomController.text = auth.user.nom! ;
         return TextFormField(
         controller: _nomController,
         decoration:  InputDecoration(

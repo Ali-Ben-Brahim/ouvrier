@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 import '../services/poubelle_service.dart';
 import '../services/region-services.dart';
+import '../services/url_db.dart';
+import '../services/user_service.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -35,8 +38,9 @@ class _MyHomePageState extends State<MyHomePage> {
           .then((value) {
         setState(() {
           qrData = value.toString().trim();
-          qrCode(qrData);
         });
+        print("qrData : $qrData");
+        qrCode(qrData);
       });
     } catch (_) {}
   }
@@ -56,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Text('Nom du poubelle: $nom'),
                     Text('Etat : $Etat'),
                     Text('type : $type'),
-                    Text('type : $temps_remplissage'),
+                    Text('temps : $temps_remplissage'),
                   ],
                 ),
                 content: ElevatedButton(
@@ -73,23 +77,19 @@ class _MyHomePageState extends State<MyHomePage> {
                       });
                       Navigator.pop(context);
                       showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('Pubelle est vide'),
-
-              actions: <Widget>[
-                TextButton(
-                    onPressed: () async {
-
-                      Navigator.pop(context);
-                    },
-                    child: Text('OK')),
-
-              ],
-            );
-          });
-
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('Pubelle est vide'),
+                              actions: <Widget>[
+                                TextButton(
+                                    onPressed: () async {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('OK')),
+                              ],
+                            );
+                          });
                     }
                   },
                   child: const Text('Vider la poubelle'),
@@ -104,8 +104,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future qrCode(String data) async {
     try {
-      http.Response response = await http.post(
-          Uri.parse("http://192.168.0.24:8000/api/viderPoubelleQr/" + data));
+      print(
+          'qrCode Function ${Provider.of<Auth>(context, listen: false).token}');
+      http.Response response =
+          await http.post(Uri.parse(viderQr + data), headers: {
+        'Authorization':
+            'Bearer ${Provider.of<Auth>(context, listen: false).token}',
+        'Accept': 'application/json'
+      });
+      print("RESPONSEqrCode : ${response.body}");
       if (response.statusCode == 200) {
         var list = jsonDecode(response.body);
         print("$list");
@@ -121,6 +128,9 @@ class _MyHomePageState extends State<MyHomePage> {
           list['type'],
           list['temps_remplissage'],
         );
+        print(
+          "list: ${list['nom_etablissement']}",
+        );
       }
     } catch (_) {}
   }
@@ -128,23 +138,43 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-
-        child: Column(
-          children: [
-            const Text("Veuillez scanner le code QR de la poubelle devant vous en cliquant au-dessous : "),
-            InkWell(
-              child: Container(
-                margin: const EdgeInsets.all(20),
-                child: const Icon(
-                  Icons.qr_code_scanner,
-                  size: 72,
+      appBar: AppBar(
+          backgroundColor: const Color(0xFF196f3d),
+          title: Center(
+            child: const Text("Scan poubelle",
+                style: TextStyle(
+                  fontFamily: "hindi",
+                  fontSize: 30,
+                )),
+          )),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: const Text(
+                  "Veuillez scanner le code QR de la poubelle devant vous en cliquant au-dessous : ",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
                 ),
               ),
-              onTap: () => _scan(),
-            ),
-          ],
+              InkWell(
+                child: Container(
+                  margin: const EdgeInsets.all(20),
+                  child: const Icon(
+                    Icons.qr_code_scanner,
+                    size: 250,
+                  ),
+                ),
+                onTap: () => _scan(),
+              ),
+            ],
+          ),
         ),
       ),
     );

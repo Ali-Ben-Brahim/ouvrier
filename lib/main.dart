@@ -2,10 +2,12 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:test/pages/GoogleMaps.dart';
 import 'package:flutter/material.dart';
+import 'package:test/pages/navbar.dart';
 import 'package:test/pages/signup.dart';
-import 'package:test/pages/test.dart';
-import 'package:test/services/test.dart';
-import 'package:test/services/try.dart';
+import 'package:test/pages/scanPoubelle.dart';
+
+
+
 import 'package:test/services/user_service.dart';
 
 void main() => runApp(const MyApp());

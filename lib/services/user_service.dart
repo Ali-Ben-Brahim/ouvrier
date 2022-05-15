@@ -10,20 +10,22 @@ class Auth with ChangeNotifier {
   bool _isLoggedIn = false;
   late User _user;
   late String _token;
-
+  String get token => _token;
   bool get authenticated => _isLoggedIn;
   User get user => _user;
 
   Future<void> login(Map creeds, context) async {
-    print(creeds);
     try {
       http.Response response = await http.post(
         Uri.parse(loginURL),
         body: creeds,
       );
       if (response.statusCode == 200) {
-        
-        Navigator.of(context).push(
+        var data = jsonDecode(response.body);
+        print("qrCode Function ${data['user']}");
+        _user = User.fromJson(data['user']);
+        _token = data['token'].toString();
+        Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => Menu()),
         );
       } else {

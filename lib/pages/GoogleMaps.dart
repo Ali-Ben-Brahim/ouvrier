@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:test/pages/etat_poubelle.dart';
 import 'package:test/pages/reclamation.dart';
-import 'package:test/services/test_services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:test/services/function.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -142,7 +141,7 @@ class MapSampleState extends State<MapSample> {
     final panelHeightClosed = MediaQuery.of(context).size.height * 0.1;
     final panelHeightOpen = MediaQuery.of(context).size.height * 0.7;
     final halfw = MediaQuery.of(context).size.width;
-    final halfh = MediaQuery.of(context).size.height * 0.8;
+    final halfh = MediaQuery.of(context).size.height * 0.7;
 
     List.generate(etablissementData.length, (i) {
       dynamic infos = etablissementData[i];
@@ -179,8 +178,7 @@ class MapSampleState extends State<MapSample> {
               infos['latitude'].toDouble(), infos['longitude'].toDouble()),
           infoWindow: InfoWindow(
               title: infos['nom_etablissement'],
-              snippet:
-                  'Etat poubelle : ${infos['quantite_dechets_plastique']} %'),
+              ),
           icon: check.check2(infos['quantite_dechets_plastique'].toDouble()),
         ),
       );
@@ -444,8 +442,7 @@ class MapSampleState extends State<MapSample> {
                         ),
                       ),
         appBar: AppBar(
-          leading:
-              IconButton(icon: const Icon(Icons.arrow_back), onPressed: () {}),
+
           backgroundColor: const Color(0xFF196f3d),
         ),
         body: _Myplace == null

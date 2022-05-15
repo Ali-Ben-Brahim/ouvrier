@@ -1,6 +1,6 @@
 // const baseURL = 'http://192.168.0.2:8000/api';
 // php artisan serve --host=192.168.0.3 --port=8000
-const baseURL = 'http://192.168.0.24:8000/api';
+const baseURL = 'http://reschoolecology.tech/api';
 
 const loginURL = baseURL + '/auth-ouvrier/login';
 
@@ -27,3 +27,7 @@ const donneeEtablissement = baseURL + "/donnee-etablissement";
 const regionmap = baseURL + "/google-map";
 
 const searchblocPoubelle = baseURL + '/poubelle-bloc-poubelle-id/';
+
+const viderQr = baseURL + '/auth-ouvrier/viderPoubelleQr/';
+
+const camion = baseURL + '/auth-ouvrier/camion';

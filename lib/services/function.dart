@@ -14,7 +14,7 @@ class Check {
 
   BitmapDescriptor check2(double percent) {
     if (percent < 25) {
-      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
     } else if (percent < 75) {
       return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow);
     } else {
