@@ -1,57 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:test/pages/reclamation/camion.dart';
 import 'package:test/pages/reclamation/poubelle.dart';
 import 'package:test/pages/signup.dart';
 
+import '../models/conversations_model.dart';
+import '../provider/conversation_provider.dart';
+import '../services/user_service.dart';
+import 'chat.dart';
 
-class Signaler extends StatelessWidget {
-  Signaler({Key? key}) : super(key: key);
-  List menu = [
-    {"name": "Panne Poubelle", "page":  PannePoubelle()},
-    {"name": "Panne Camion", "page": PanneCamion()},
-    {"name": "Signaler accident", "page": const PannePoubelle()},
-    {"name": "Signaler incident", "page": Login()},
-    {"name": "Autres", "page": const PannePoubelle()},
-  ];
+class Signaler extends StatefulWidget {
+  const Signaler({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
+  State<Signaler> createState() => _SignalerState();
+}
 
-          backgroundColor: const Color(0xFF196f3d),
-          title: const Text("Récalamtion",
-              style: TextStyle(
-                fontFamily: "hindi",
-                fontSize: 30,
-              )),
-        ),
-        body: ListView.separated(
-          itemCount: menu.length,
-          itemBuilder: (context, i) {
-            return InkWell(
-              child: SizedBox(
-                height: 125,
-                child: Center(
-                  child: ListTile(
-                    title: Text("${menu[i]['name']}",
-                        style: const TextStyle(
-                            fontSize: 26, fontWeight: FontWeight.bold)),
-                    trailing: Image.asset("Image/arrow-right.png"),
-                  ),
-                ),
+class _SignalerState extends State<Signaler> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('Réclamation'),
+        backgroundColor: Color.fromRGBO(75, 174, 79, 1),
+      ),
+      body: InkWell(
+        onTap: () async {
+          dynamic token = Provider.of<Auth>(context, listen: false).token;
+
+          var conversations =
+              await Provider.of<ConversationProvider>(context, listen: false)
+                  .addConversation(token);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => Chat(
+                      conversation:
+                          ConversationModel.fromJson(conversations))));
+        },
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 35, 20, 0),
+          children: const [
+            SizedBox(
+              height: 250,
+              child: Image(
+                image: AssetImage('image/service.png'),
               ),
-              onTap: () {
-                Get.to(menu[i]['page']);
-              },
-            );
-          },
-          separatorBuilder: (context, index) {
-            return const Divider(thickness: 2);
-          },
+            ),
+            Center(
+                child: Text(
+              "Messages",
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            ))
+          ],
         ),
       ),
     );

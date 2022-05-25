@@ -33,14 +33,20 @@ class User {
     poste = json['poste'].toString();
     numeroTelephone = json['numero_telephone'].toString();
     adresse = json['adresse'].toString();
-    email = json['email'].toString();
   }
 
-  // Map<String, dynamic> toJson() {
-  // 	final Map<String, dynamic> data = Map<String, dynamic>();
-  // 	data['id'] = this.id;
-  // 	data['name'] = this.name;
-  // 	data['email'] = this.email;
-  // 	return data;
-  // }
+  Map<String, dynamic> toJson() {
+  	final Map<String, dynamic> data = Map<String, dynamic>();
+  	data['id'] = this.id;
+    data['camionId'] = this.camionId ;
+    data['zoneTravailId'] = this.zoneTravailId ;
+    data['nom'] = this.nom ;
+    data['prenom'] = this.prenom ;
+    data['email'] = this.email ;
+    data['cin'] = this.cin ;
+    data['poste'] = this.poste ;
+  	data['numeroTelephone'] = this.numeroTelephone;
+  	data['adresse'] = this.adresse;
+  	return data;
+  }
 }

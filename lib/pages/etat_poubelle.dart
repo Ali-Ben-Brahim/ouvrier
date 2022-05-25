@@ -62,18 +62,16 @@ class _EtatPoubelleState extends State<EtatPoubelle> {
               child: Text("Bloc vide"),
             )
           : GridView.count(
-              childAspectRatio: MediaQuery.of(context).size.width /
-                  (MediaQuery.of(context).size.height / 1),
-              crossAxisCount: 2,
-              mainAxisSpacing: 2,
-              crossAxisSpacing: 20,
-              padding: const EdgeInsets.all(20),
+scrollDirection: Axis.vertical,
+childAspectRatio: 0.5 ,
+              crossAxisCount:2,
+
+              crossAxisSpacing: 4,
+              padding: const EdgeInsets.all(10),
               children: List.generate(poubelles.length ,(index) {
-                return Container(
-                                alignment: Alignment.bottomCenter,
-                                child: Column(
+                return  Column(
                                   children: [
-                                    Text(
+                                    Column(children: [Text(
                                       poubelles[index]['type'],
 
                                       style: const TextStyle(
@@ -91,7 +89,7 @@ class _EtatPoubelleState extends State<EtatPoubelle> {
                                                 "images/${poubelles[index]['type']}.png"),
                                             width: 220.0,
                                             height: 230.0,
-                                            fit: BoxFit.contain,
+
                                           ),
                                           Container(
                                             width: 80,
@@ -143,9 +141,10 @@ class _EtatPoubelleState extends State<EtatPoubelle> {
                                         }
                                       },
                                       child: const Text('Vider la poubelle'),
-                                    ),
+                                    ),],),
+
                                   ],
-                                ));
+                );
               })
 
 
